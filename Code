@@ -1,0 +1,11 @@
+import numpy as np
+from sklearn.cluster import KMeans
+
+def spectral_clustering(A, n_clusters):
+    D = np.diag(np.sum(A, axis=1))
+    L = D - A
+    v, s, _=np.linalg.svd(L)
+    v_a = np.flip(v, 1)
+    x = v_a[:, 0:n_clusters].real
+    kmeans = KMeans(n_clusters=n_clusters, random_state=33)
+    return kmeans.fit(x).labels_
